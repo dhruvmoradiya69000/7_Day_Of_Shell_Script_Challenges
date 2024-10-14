@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function display_usage {
-	echo "Useage: ./Day_2.1_Solution.sh <explore directory path>"
+	echo "Useage: ./Day_2.2_Solution.sh <explore directory path>"
 }
 
 if [ $# -eq 0 ] 
