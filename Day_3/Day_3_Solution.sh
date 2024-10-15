@@ -16,7 +16,7 @@ display_help() {
 # Function to create a new user account
 create_account() {
     read -p "Enter new username: " username
-    if id "$username" &>/dev/null; then
+    if sudo id "$username" &>/dev/null; then
         echo "Error: User '$username' already exists."
         exit 1
     fi
@@ -24,8 +24,8 @@ create_account() {
     read -s -p "Enter password for $username: " password
     echo
     
-    useradd -m "$username"
-    echo "$username:$password" | chpasswd
+    sudo useradd -m "$username"
+    echo "$username:$password" | sudo chpasswd
     
     echo "User account '$username' created successfully."
 }
@@ -33,19 +33,19 @@ create_account() {
 # Function to delete a user account
 delete_account() {
     read -p "Enter username to delete: " username
-    if ! id "$username" &>/dev/null; then
+    if ! sudo id "$username" &>/dev/null; then
         echo "Error: User '$username' does not exist."
         exit 1
     fi
     
-    userdel -r "$username"
+    sudo userdel -r "$username"
     echo "User account '$username' deleted successfully."
 }
 
 # Function to reset a user's password
 reset_password() {
     read -p "Enter username to reset password: " username
-    if ! id "$username" &>/dev/null; then
+    if ! sudo id "$username" &>/dev/null; then
         echo "Error: User '$username' does not exist."
         exit 1
     fi
@@ -53,7 +53,7 @@ reset_password() {
     read -s -p "Enter new password for $username: " password
     echo
     
-    echo "$username:$password" | chpasswd
+    echo "$username:$password" | sudo chpasswd
     echo "Password for user '$username' reset successfully."
 }
 
@@ -62,7 +62,7 @@ list_accounts() {
     echo "User accounts on the system:"
     echo "Username:UID"
     echo "------------"
-    cut -d: -f1,3 /etc/passwd | sort
+    sudo cut -d: -f1,3 /etc/passwd | sort
 }
 
 # Main script logic
